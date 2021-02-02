@@ -20,6 +20,23 @@ function CandidateView({ candidate }) {
   )
 }
 
+function MobileCandidateView({ candidate }) {
+  return (
+    <div style={{flexDirection: 'column', display: 'flex' , alignItems: 'center', marginBottom: 15}}>
+      <div style={{display: 'flex', flexDirection: 'row', padding: 7.5, alignItems: 'center'}}>
+        <div className={styles.imgZoom} >
+          <img src={candidate.imgURL} alt={candidate.name} />
+        </div>
+      </div>
+        <div style={{flexDirection:'column', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+          <label className={styles.nameTitle}>{candidate.name}</label>
+          <label className={styles.description}>{candidate.description}</label>
+          <Socials socials={candidate.socials} />
+        </div>
+    </div>
+  )
+}
+
 function Socials({ socials }) {
   return (
     <div>
@@ -39,8 +56,55 @@ function Socials({ socials }) {
   )
 }
 
+function DesktopApp({ candidates }) {
+  return (
+    <div className={styles.container}>
+      <Helmet>
+        <title>NYC 2021</title>
+      </Helmet>
+      <main className={styles.main}>
+        <h1>NYC 2021 Mayoral Election</h1>
+        <label className={styles.description} style={{ fontSize: '1.5rem' }}>Candidates</label>
+        {candidates.map((c) => <CandidateView key={c._id} candidate={c} /> )}
+      </main>
+      <footer className={styles.footer}>
+        <label className={styles.footerText}>Built by Frank Pinnola</label>
+      </footer>
+    </div>
+  );
+}
+
+function MobileApp({ candidates }) {
+  return (
+    <div className={styles.container}>
+      <Helmet>
+        <title>NYC 2021</title>
+      </Helmet>
+      <main className={styles.mainMobile}>
+        <h1>NYC 2021 Mayoral Election</h1>
+        <label className={styles.description} style={{ fontSize: '1.5rem' }}>Candidates</label>
+        {candidates.map((c) => <MobileCandidateView key={c._id} candidate={c} /> )}
+      </main>
+      <footer className={styles.footer}>
+        <label className={styles.footerText}>Built by Frank Pinnola</label>
+      </footer>
+    </div>
+  );
+}
+
+
 function App() {
+  const [width, setWidth] = useState(600);
+  const breakpoint = 620;
   let [candidates, setCandidates] = useState([]);
+
+  useEffect(() => {
+    const handleWindowResize = () => setWidth(window.innerWidth)
+    window.addEventListener("resize", handleWindowResize);
+
+    //Remove event listener on cleanup
+    return () => window.removeEventListener("resize", handleWindowResize);
+  }, []);
 
   useEffect(() => {
     fetch('https://nyc2021backend.herokuapp.com/candidates')
@@ -52,22 +116,29 @@ function App() {
       }
     )
   }, [])
+  if (width < breakpoint) {
+    console.log('Mobile')
+    return <MobileApp candidates={candidates} />
+  } else {
+    console.log('Desktop')
+    return <DesktopApp candidates={candidates} />
+  }
 
-  return (
-    <div className={styles.container}>
-      <Helmet>
-        <title>NYC 2021</title>
-      </Helmet>
-      <main className={styles.main}>
-        <h1>NYC 2021 Mayoral Election</h1>
-        <label className={styles.description} style={{ fontSize: '1.5rem' }}>Candidates</label>
-        {candidates.map((c) => <CandidateView key={c.id} candidate={c} /> )}
-      </main>
-      <footer className={styles.footer}>
-        <label className={styles.footerText}>Built by Frank Pinnola</label>
-      </footer>
-    </div>
-  );
+  // return (
+  //   <div className={styles.container}>
+  //     <Helmet>
+  //       <title>NYC 2021</title>
+  //     </Helmet>
+  //     <main className={styles.main}>
+  //       <h1>NYC 2021 Mayoral Election</h1>
+  //       <label className={styles.description} style={{ fontSize: '1.5rem' }}>Candidates</label>
+  //       {candidates.map((c) => <CandidateView key={c._id} candidate={c} /> )}
+  //     </main>
+  //     <footer className={styles.footer}>
+  //       <label className={styles.footerText}>Built by Frank Pinnola</label>
+  //     </footer>
+  //   </div>
+  // );
 }
 
 export default App;
