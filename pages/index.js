@@ -94,11 +94,12 @@ function MobileApp({ candidates }) {
 
 
 function App() {
-  const [width, setWidth] = useState(600);
+  const [width, setWidth] = useState(1000);
   const breakpoint = 620;
   let [candidates, setCandidates] = useState([]);
 
   useEffect(() => {
+    setWidth(window.innerWidth);
     const handleWindowResize = () => setWidth(window.innerWidth)
     window.addEventListener("resize", handleWindowResize);
 
