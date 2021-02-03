@@ -5,6 +5,9 @@ import { Helmet } from 'react-helmet';
 // import twitter from '/twitter'
 import { useEffect, useState } from 'react';
 
+import mixpanel from 'mixpanel-browser';
+mixpanel.init('0fd31df1844e308889cfdca1d5a475b2');
+
 function CandidateView({ candidate }) {
   return (
     <div style={{display: 'flex', flexDirection: 'row', padding: 7.5, alignItems: 'flex-start'}}>
@@ -99,12 +102,17 @@ function App() {
   let [candidates, setCandidates] = useState([]);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'production') mixpanel.track('Home Page Viewed');
+  }, []);
+
+  useEffect(() => {
     setWidth(window.innerWidth);
     const handleWindowResize = () => setWidth(window.innerWidth)
     window.addEventListener("resize", handleWindowResize);
 
     //Remove event listener on cleanup
     return () => window.removeEventListener("resize", handleWindowResize);
+
   }, []);
 
   useEffect(() => {
