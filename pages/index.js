@@ -59,12 +59,20 @@ function Socials({ socials }) {
   )
 }
 
+function HomeHeader() {
+  return (
+    <Helmet>
+      <title>NYC 2021 Mayoral Race</title>
+      <meta name="description" content="Explore the candidates running for NYC Mayor in 2021." />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" key="viewport" />
+    </Helmet>
+  )
+}
+
 function DesktopApp({ candidates }) {
   return (
     <div className={styles.container}>
-      <Helmet>
-        <title>NYC 2021</title>
-      </Helmet>
+      <HomeHeader />
       <main className={styles.main}>
         <h1>NYC 2021 Mayoral Election</h1>
         <label className={styles.description} style={{ fontSize: '1.5rem' }}>Candidates</label>
@@ -80,9 +88,7 @@ function DesktopApp({ candidates }) {
 function MobileApp({ candidates }) {
   return (
     <div className={styles.container}>
-      <Helmet>
-        <title>NYC 2021</title>
-      </Helmet>
+      <HomeHeader />
       <main className={styles.mainMobile}>
         <h1>NYC 2021 Mayoral Election</h1>
         <label className={styles.description} style={{ fontSize: '1.5rem' }}>Candidates</label>
