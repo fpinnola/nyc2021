@@ -21,6 +21,7 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+  background-color: #FAFAFA;
 }
 
 .main {
@@ -30,6 +31,7 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+  width: 100%;
 }
 
 .mainMobile {
@@ -39,6 +41,43 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+}
+
+.flex_grid {
+  display: flex;
+  width: 100%;
+  gap: 25px;
+}
+
+.candidateContainer {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+}
+
+.listItem {
+  display: flex;
+  padding: 0.5em;
+  width: 50%;
+  min-width: 10ch; 
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* .col {
+  background-color: green;
+  height: 200px;
+} */
+
+.scheduleContainer {
+  flex: 1;
+}
+
+.link {
+  color: #007aff;
 }
 
 .item {

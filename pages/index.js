@@ -1,10 +1,8 @@
-// import './App.css';
 import styles from '../styles/Home.module.css'
 import { Helmet } from 'react-helmet';
-// import facebook from '/facebook';
-// import twitter from '/twitter'
 import { useEffect, useState } from 'react';
 import { CandidateView, MobileCandidateView } from '../components/CandidateView';
+import Link from 'next/link'
 
 import mixpanel from 'mixpanel-browser';
 mixpanel.init('0fd31df1844e308889cfdca1d5a475b2');
@@ -28,7 +26,21 @@ function DesktopApp({ candidates }) {
       <main className={styles.main}>
         <h1>NYC 2021 Mayoral Election</h1>
         <label className={styles.description} style={{ fontSize: '1.5rem' }}>Candidates</label>
-        {candidates.map((c) => <CandidateView key={c._id} candidate={c} /> )}
+        <div className={styles.flex_grid}>
+          <div className={styles.candidateContainer}>
+            <ul className={styles.list}>
+              {candidates.map((c) => 
+              (<li className={styles.listItem}>
+                <CandidateView key={c._id} candidate={c} />
+              </li>))}
+            </ul>
+          </div>
+          <div className={styles.scheduleContainer}>
+            <div style={{ boxShadow: '0px 4px 8px rgba(0,0,0,0.25)', padding: 20, borderRadius: 12 }}>
+              <h2>Upcoming Events</h2>
+            </div>
+          </div>
+        </div>
       </main>
       <footer className={styles.footer}>
         <label className={styles.footerText}>Built by Frank Pinnola</label>
@@ -58,7 +70,6 @@ function App() {
   const [width, setWidth] = useState(1000);
   const breakpoint = 620;
   let [candidates, setCandidates] = useState(candidateStatic);
-
   useEffect(() => {
     if (process.env.NODE_ENV === 'production') mixpanel.track('Home Page Viewed');
   }, []);
